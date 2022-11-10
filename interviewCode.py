@@ -61,10 +61,6 @@ import random
 
 
 P1 = { "loadshifting" : 0, "peakshaving" : 10, "charging" : 0}
-P2 = { "loadshifting" : 0, "peakshaving" : 20, "charging" : 0}
-P3 = { "loadshifting" : 0, "peakshaving" : 30, "charging" : 0}
-peakshavingThreshold = 20
-
 
 broker = 'broker.emqx.io'
 port = 1883
@@ -94,7 +90,7 @@ def publish(client, msg):
     else:
         print("msg not valid")
         return
-        
+
     result = client.publish(topic, json_data)
     # result: [0, 1]
     status = result[0]
@@ -112,6 +108,9 @@ client.loop_stop()
 
 # B) Enviar mensagem MQTT via código (a ser visualizado na ferramenta MQTT X ou semelhante)
 # indicando se: algumas das P1, P2 ou P3 estão abaixo do “threshold” definido pelo peakshaving
+P2 = { "loadshifting" : 0, "peakshaving" : 20, "charging" : 0}
+P3 = { "loadshifting" : 0, "peakshaving" : 30, "charging" : 0}
+peakshavingThreshold = 20
 
 def thresholdValidation(client, payloadname: str, payload: dict, threshold: int):
     if payload["peakshaving"] < threshold:
